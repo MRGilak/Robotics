@@ -1,0 +1,29 @@
+! Adams View Adams 2018 (built Apr 23 2018)
+! Graphics:  OpenGL
+! Enter a command, '?', or 'help'.
+interface dialog undisplay dialog=.gui.new_start_session_panel
+model display model=.Robot_joint view=all
+! >> model display model=.Robot_joint view=all
+! VERIFY MODEL: .Robot_joint
+! 
+!   -1 Gruebler Count (approximate degrees of freedom)
+!   12 Moving Parts (not including ground)
+!    6 Revolute Joints
+!    1 Translational Joints
+!    6 Fixed Joints
+!    2 Motions
+! 
+!    2 Degrees of Freedom for .Robot_joint
+! 
+! There are 3 redundant constraint equations.
+! 
+!    This constraint:                            unnecessarily removes this DOF:
+! 
+!    .Robot_joint.Calf_Thigh  (Revolute Joint)   Rotation Between Zi & Xj
+!    .Robot_joint.Calf_Thigh  (Revolute Joint)   Rotation Between Zi & Yj
+!    .Robot_joint.Rack_Thigh  (Revolute Joint)   Rotation Between Zi & Xj
+! 
+! 
+! Model verified successfully
+! WARNING:  Integrator HMAX could not be determined. Setting to HINIT.
+interface dialog undisplay dialog=.gui.msg_box

@@ -1,0 +1,1 @@
+This repository contains codes and simulations related to robotics. The robotic projects I will be working on include a single leg robot and a quadruped go2-like robot.
