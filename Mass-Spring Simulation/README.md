@@ -27,8 +27,14 @@ meaning this is the dynamics during the stance phase if the mass itself isn't to
 
 Switching between stance and swing phase happens at touchdown and at lift-off.
 Touchdown happens when 
-    ![alt text](READMEimages/image-1.png)
-where `xc` is the contact point. 
+
+    ![alt text](READMEimages/image-6.png)
+
+where `xc` is the contact poin and `theta` is the foot placement angle.
 Lift-off happens when 
+
+![alt text](READMEimages/image-7.png)
+
+This is the enitre logic implemented in the code.
 
 TO BE FURTHER COMPLETED.
