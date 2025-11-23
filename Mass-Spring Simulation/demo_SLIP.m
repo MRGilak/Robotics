@@ -2,13 +2,13 @@
 clear; close all; clc;
 
 % Parameters
-m = 10;                     % mass (kg)
+m = 1;                      % mass (kg)
 g = 9.81;                   % gravity
 l0 = 0.5;                   % neutral spring length (m)
-K = 10000;                  % spring stiffness (N/m)
+K = 1000;                   % spring stiffness (N/m)
 theta_neutral = deg2rad(0); % neutral foot placement angle (rad)
 vx_desired = 0.05;          % desired horizontal velocity (m/s)
-F_thrust = 10;              % vertical thrust force in 2nd half of stance (N)
+F_thrust = 0.7;             % vertical thrust force in 2nd half of stance (N)
 
 % Initial conditions
 x0 = 0;
@@ -83,7 +83,7 @@ for i = 1:skip:length(t)
 end
 
 % Plot trajectory
-figure('Position', [100, 100, 800, 800]);
+figure('Position', [50, 50, 1000, 700]);
 
 subplot(2,2,1);
 hold on;
