@@ -1,4 +1,7 @@
 In this repo, I am simulating a mass-spring system to be later used for modeling robotic legs using SLIP model.
+
+![alt text](READMEimages/Picture1.jpg)
+
 The function simulates a mass attached to a mass-less spring. There are two phases:
 - Swing phase: In this phase, the mass is just free falling. The equations governing this phase are
   
