@@ -1,17 +1,5 @@
-function [t, x, y, phase, theta_hist] = slip_simulation(m, g, l0, K, theta_neutral, vx_desired, F_thrust, x0, y0, vx0, vy0, t_max, debug)
-    % SLIP model simulation with Raibert controller and thrust force
-    % Inputs:
-    %   m: mass (kg)
-    %   g: gravity (m/s^2)
-    %   l0: neutral spring length (m)
-    %   K: spring stiffness (N/m)
-    %   theta_neutral: neutral foot placement angle (rad)
-    %   vx_desired: desired horizontal velocity (m/s)
-    %   F_thrust: vertical thrust force in second half of stance (N)
-    %   x0, y0: initial position (m)
-    %   vx0, vy0: initial velocity (m/s)
-    %   t_max: simulation time (s)
-    %   debug: print debug messages (true/false)
+function [t, x, y, phase, theta_hist] = slip_simulation(m, g, l0, K, ...
+    theta_neutral, vx_desired, F_thrust, x0, y0, vx0, vy0, t_max, debug)
     
     if nargin < 13
         debug = false;
@@ -25,7 +13,7 @@ function [t, x, y, phase, theta_hist] = slip_simulation(m, g, l0, K, theta_neutr
     current_phase = 'swing';
     xc = NaN;                      % contact point
     theta_current = theta_neutral; % current foot placement angle
-    K_raibert = 0.2;               % Raibert controller gain
+    K_raibert = 0.2;               % Raibert controller gain (controlling horizontal speed)
     stance_start_time = NaN;       % track when stance began
     
     % Storage

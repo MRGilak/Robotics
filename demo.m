@@ -17,8 +17,11 @@ vx0 = 0;
 vy0 = 0;
 
 % Simulation settings
-t_max = 10;
+t_max = 3;
 debug = true;  % Enable debug prints
+record_video = false; 
+video_filename = 'slip_animation.mp4';  % Output video filename
+video_framerate = 30;  % Video frame rate (fps)
 
 %% Simulate
 [t, x, y, phase, theta_hist] = slip_simulation(m, g, l0, K, theta_neutral, vx_desired, F_thrust, x0, y0, vx0, vy0, t_max, debug);
@@ -27,12 +30,20 @@ debug = true;  % Enable debug prints
 figure('Position', [100, 100, 800, 600]);
 ax = axes('Position', [0.1, 0.1, 0.8, 0.8]);
 hold on;
-xlabel('x (m)');
-ylabel('y (m)');
-title('SLIP Animation');
-grid on;
+xlabel('x (m)', 'FontName', 'Times New Roman', 'FontSize', 12);
+ylabel('y (m)', 'FontName', 'Times New Roman', 'FontSize', 12);
+title('SLIP Animation', 'FontName', 'Times New Roman', 'FontSize', 12);
+grid off;
 xlim([min(x)-0.5, max(x)+0.5]);
 ylim([-0.1, max(y)+0.3]);
+
+% Initialize video writer if recording is enabled
+if record_video
+    video_writer = VideoWriter(video_filename, 'MPEG-4');
+    video_writer.FrameRate = video_framerate;
+    open(video_writer);
+    fprintf('Recording video to: %s\n', video_filename);
+end
 
 % Ground line
 plot([min(x)-1, max(x)+1], [0, 0], 'k-', 'LineWidth', 3);
@@ -42,6 +53,11 @@ h_mass = plot(x(1), y(1), 'ro', 'MarkerSize', 20, 'MarkerFaceColor', 'r');
 h_spring = plot([x(1), x(1)], [y(1), y(1)], 'b-', 'LineWidth', 3);
 % h_trail = plot(x(1), y(1), 'c-', 'LineWidth', 1); % Plot the trail
 h_contact = plot(NaN, NaN, 'go', 'MarkerSize', 10, 'MarkerFaceColor', 'g');
+
+% Time display in top left corner
+h_time = text(min(x)-0.4, max(y)+0.2, sprintf('Time: %.2f s', t(1)), ...
+    'FontName', 'Times New Roman', 'FontSize', 14, 'FontWeight', 'bold', ...
+    'BackgroundColor', 'white', 'EdgeColor', 'black', 'Margin', 3);
 
 % Find contact points for animation
 contact_x = [];
@@ -57,6 +73,9 @@ skip = max(1, floor(length(t)/500)); % Show ~500 frames
 for i = 1:skip:length(t)
     % Update mass position
     set(h_mass, 'XData', x(i), 'YData', y(i));
+    
+    % Update time display
+    set(h_time, 'String', sprintf('Time: %.2f s', t(i)));
     
     % Update spring 
     if phase(i) == 2  % stance - spring connects contact point to mass
@@ -79,7 +98,20 @@ for i = 1:skip:length(t)
     % set(h_trail, 'XData', x(1:i), 'YData', y(1:i));
     
     drawnow;
+    
+    % Capture frame for video if recording
+    if record_video
+        frame = getframe(gcf);
+        writeVideo(video_writer, frame);
+    end
+    
     pause(0.01);
+end
+
+% Close video writer if recording was enabled
+if record_video
+    close(video_writer);
+    fprintf('Video recording completed: %s\n', video_filename);
 end
 
 % Plot trajectory
@@ -92,10 +124,10 @@ stance_idx = phase == 2;
 plot(x(swing_idx), y(swing_idx), 'b.', 'MarkerSize', 3);
 plot(x(stance_idx), y(stance_idx), 'r.', 'MarkerSize', 3);
 plot([min(x)-0.5, max(x)+0.5], [0, 0], 'k-', 'LineWidth', 2); % ground
-xlabel('x (m)');
-ylabel('y (m)');
-title('SLIP Trajectory');
-legend('Swing', 'Stance', 'Ground');
+xlabel('x (m)', 'FontName', 'Times New Roman', 'FontSize', 12);
+ylabel('y (m)', 'FontName', 'Times New Roman', 'FontSize', 12);
+title('SLIP Trajectory', 'FontName', 'Times New Roman', 'FontSize', 12);
+legend('Swing', 'Stance', 'Ground', 'FontName', 'Times New Roman', 'FontSize', 12);
 grid on;
 axis equal;
 
@@ -109,10 +141,10 @@ if ~isempty(theta_hist)
     yline(l0*cos(theta_max), 'k--', 'LineWidth', 1, 'Alpha', 0.3);
     yline(l0*cos(theta_min), 'k--', 'LineWidth', 1, 'Alpha', 0.3);
 end
-xlabel('Time (s)');
-ylabel('y (m)');
-title('Height vs Time');
-legend('Swing', 'Stance');
+xlabel('Time (s)', 'FontName', 'Times New Roman', 'FontSize', 12);
+ylabel('y (m)', 'FontName', 'Times New Roman', 'FontSize', 12);
+title('Height vs Time', 'FontName', 'Times New Roman', 'FontSize', 12);
+legend('Swing', 'Stance', 'FontName', 'Times New Roman', 'FontSize', 12);
 grid on;
 
 subplot(2,2,3);
@@ -120,10 +152,10 @@ hold on;
 plot(t(swing_idx), rad2deg(theta_hist(swing_idx)), 'b.', 'MarkerSize', 3);
 plot(t(stance_idx), rad2deg(theta_hist(stance_idx)), 'r.', 'MarkerSize', 3);
 yline(rad2deg(theta_neutral), 'k--', 'LineWidth', 1.5, 'DisplayName', 'Neutral');
-xlabel('Time (s)');
-ylabel('theta (deg)');
-title('Foot Placement Angle vs Time');
-legend('Swing', 'Stance', 'Neutral');
+xlabel('Time (s)', 'FontName', 'Times New Roman', 'FontSize', 12);
+ylabel('theta (deg)', 'FontName', 'Times New Roman', 'FontSize', 12);
+title('Foot Placement Angle vs Time', 'FontName', 'Times New Roman', 'FontSize', 12);
+legend('Swing', 'Stance', 'Neutral', 'FontName', 'Times New Roman', 'FontSize', 12);
 grid on;
 
 subplot(2,2,4);
@@ -133,9 +165,9 @@ hold on;
 plot(t(swing_idx), vx_calc(swing_idx), 'b.', 'MarkerSize', 3);
 plot(t(stance_idx), vx_calc(stance_idx), 'r.', 'MarkerSize', 3);
 yline(vx_desired, 'k--', 'LineWidth', 1.5, 'DisplayName', 'Desired');
-xlabel('Time (s)');
-ylabel('vx (m/s)');
-title('Horizontal Velocity vs Time');
-legend('Swing', 'Stance', 'Desired');
+xlabel('Time (s)', 'FontName', 'Times New Roman', 'FontSize', 12);
+ylabel('vx (m/s)', 'FontName', 'Times New Roman', 'FontSize', 12);
+title('Horizontal Velocity vs Time', 'FontName', 'Times New Roman', 'FontSize', 12);
+legend('Swing', 'Stance', 'Desired', 'FontName', 'Times New Roman', 'FontSize', 12);
 grid on;
 
