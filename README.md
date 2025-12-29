@@ -1,10 +1,10 @@
 In this repo, I am simulating a mass-spring system to be later used for modeling robotic legs using SLIP model.
 
-![alt text](images/Picture1.jpg)
+<img src="images/Picture1.jpg" alt="alt text" width="25%">
 
 Here is a simple demo of the function:
 
-![alt text](images/slip_animation.mp4)
+![Slip animation](images/slip_animation.gif)
 
 The function simulates a mass attached to a mass-less spring. There are two phases:
 - Swing phase: In this phase, the mass is just free falling. The equations governing this phase are
@@ -49,14 +49,14 @@ Switching between stance and swing phase happens at touchdown and at lift-off.
 Touchdown happens when 
 
 $$
-    y < l_0 \cos(\theta) \ & \ \dot{y} < 0
+    y < l_0 \cos(\theta) & \dot{y} < 0
 $$
 
 where $x_c$ is the contact poin and $\theta$ is the foot placement angle.
 Lift-off happens when 
 
 $$
-    l = \sqrt{(x - x_c)^2 + y^2} = l_0 \ & \ \dot{y} > 0
+    l = \sqrt{(x - x_c)^2 + y^2} = l_0 & \dot{y} > 0
 $$
 
 This is the enitre logic implemented in the code.
