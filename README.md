@@ -49,14 +49,14 @@ Switching between stance and swing phase happens at touchdown and at lift-off.
 Touchdown happens when 
 
 $$
-    y < l_0 \cos(\theta) \ & \ \dot{y} < 0
+    y < l_0 \cos(\theta) & \dot{y} < 0
 $$
 
 where $x_c$ is the contact poin and $\theta$ is the foot placement angle.
 Lift-off happens when 
 
 $$
-    l = \sqrt{(x - x_c)^2 + y^2} = l_0 \ & \ \dot{y} > 0
+    l = \sqrt{(x - x_c)^2 + y^2} = l_0 & \dot{y} > 0
 $$
 
 This is the enitre logic implemented in the code.
